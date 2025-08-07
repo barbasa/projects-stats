@@ -18,6 +18,7 @@ CSV_OUTPUT = config["general"]["csv_output"]
 AUTH = (GERRIT_USER, GERRIT_PASSWORD)
 CSV_HEADER_REPOSITORY = "Repository"
 CSV_HEADER_CREATION_DATE = "Creation Date"
+CSV_HEADER_LAST_UPDATE = "Last Update Date"
 PROJECTS_ENDPOINT="/projects"
 
 
@@ -41,6 +42,19 @@ def get_gerrit_projects():
     return list(projects.keys())
 
 
+def get_project_last_updated(project_name):
+    """Get the last updated timestamp for a project based on the latest change."""
+    query = f"/changes/?S=0&n=1&q=project:{project_name}"
+    url = f"{GERRIT_URL}{query}"
+    response = requests.get(url, auth=AUTH)
+    response.raise_for_status()
+    content = response.text.lstrip(")]}'\n")
+    changes = json.loads(content)
+    if changes:
+        return changes[0].get("updated")
+    return None
+
+
 def get_first_commit_date(project_name):
     """Return the date of the first commit on the 'master' branch."""
     repo_path = os.path.join(GIT_BASE_PATH, f"{project_name}.git")
@@ -56,13 +70,13 @@ def get_first_commit_date(project_name):
         return None
 
 
-def write_to_csv(repo_dates):
-    """Write the repository names and creation dates to a CSV file."""
+def write_to_csv(repo_data):
+    """Write the repository names, creation dates, and last update dates to a CSV file."""
     with open(CSV_OUTPUT, "w", newline="") as f:
         writer = csv.writer(f)
-        writer.writerow([CSV_HEADER_REPOSITORY, CSV_HEADER_CREATION_DATE])
-        for repo, date in repo_dates:
-            writer.writerow([repo, date or "N/A"])
+        writer.writerow([CSV_HEADER_REPOSITORY, CSV_HEADER_CREATION_DATE, CSV_HEADER_LAST_UPDATE])
+        for repo, creation_date, last_update in repo_data:
+            writer.writerow([repo, creation_date or "N/A", last_update or "N/A"])
 
 
 def main():
@@ -77,16 +91,17 @@ def main():
 
     for repo in repos:
         if repo in existing_data:
-            print(f"Skipping {repo}, already in CSV.")
-            repo_dates.append((repo, existing_data[repo]))
+            print(f"Creation Date already collected for {repo}")
+            repo_dates.append((repo, existing_data[repo], get_project_last_updated(repo)))
             continue
 
         print(f"Processing: {repo}")
-        date = get_first_commit_date(repo)
-        if date:
-            repo_dates.append((repo, date))
+        creation_date = get_first_commit_date(repo)
+        last_update = get_project_last_updated(repo)
+        if creation_date:
+            repo_dates.append((repo, creation_date, last_update))
         else:
-            print(f"Error: could not extract date for {repo}")
+            print(f"Error: could not extract creation date for {repo}")
 
     write_to_csv(repo_dates)
     print(f"Done. Output saved to: {CSV_OUTPUT}")
