@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c6a412f_6b28edf5",
+        "filename": "projects_stats.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2025-08-18T17:17:27Z",
+      "side": 1,
+      "message": "Need to catch REST API read calls as well.",
+      "range": {
+        "startLine": 88,
+        "startChar": 0,
+        "endLine": 92,
+        "endChar": 0
+      },
+      "revId": "1b39f23c666392040df863115a39dbb88ba7b747",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38ffd3d1_9fbdf62a",
+        "filename": "projects_stats.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2025-08-18T17:17:27Z",
+      "side": 1,
+      "message": "Here we should filter for httpd_logs only",
+      "revId": "1b39f23c666392040df863115a39dbb88ba7b747",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f527920a_3917ec2f",
+        "filename": "projects_stats.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2025-08-18T17:17:27Z",
+      "side": 1,
+      "message": "If not defined we should exit the script",
+      "range": {
+        "startLine": 181,
+        "startChar": 7,
+        "endLine": 181,
+        "endChar": 16
+      },
+      "revId": "1b39f23c666392040df863115a39dbb88ba7b747",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
