@@ -43,6 +43,7 @@ Create a config.ini file in the same directory as the script, with the following
     gerrit_password = your_http_password
     git_base_path = /var/gerrit/git
     csv_output = repo_creation_dates.csv
+    logs_path = /tmp/logs
 ```
 
 * gerrit_url: Gerrit REST API URL
@@ -50,6 +51,7 @@ Create a config.ini file in the same directory as the script, with the following
 * gerrit_password: HTTP password or API token
 * git_base_path: Path on disk where the repositories are stored (bare format, .git)
 * csv_output: Output file name (default is repo_creation_dates.csv)
+* logs_path: Directory containing the HTTP log files
 
 ## Run the script
 
