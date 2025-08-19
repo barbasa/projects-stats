@@ -16,6 +16,29 @@
       "message": "If master is not present er could extract it from the \"meta/config\"",
       "revId": "25e7e6b889132eb6daec961936786aa0ed60ae6c",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "576e02a2_a9d6574b",
+        "filename": "projects_stats.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2025-08-19T17:33:58Z",
+      "side": 1,
+      "message": "Do not recompute if different from N/A",
+      "range": {
+        "startLine": 83,
+        "startChar": 37,
+        "endLine": 83,
+        "endChar": 56
+      },
+      "revId": "25e7e6b889132eb6daec961936786aa0ed60ae6c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
