@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae792835_69640352",
+        "filename": "projects_stats.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2025-08-19T17:33:07Z",
+      "side": 1,
+      "message": "If master is not present er could extract it from the \"meta/config\"",
+      "revId": "25e7e6b889132eb6daec961936786aa0ed60ae6c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
