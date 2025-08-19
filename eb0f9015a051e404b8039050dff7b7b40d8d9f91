@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "88ae1231_8b691fa4",
+        "filename": "README.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2025-08-19T17:00:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f60e891e_82a6cc07",
+      "range": {
+        "startLine": 47,
+        "startChar": 51,
+        "endLine": 47,
+        "endChar": 79
+      },
+      "revId": "eb0f9015a051e404b8039050dff7b7b40d8d9f91",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ef5e5e7c_947b4d08",
@@ -37,6 +61,24 @@
       "writtenOn": "2025-08-19T13:18:09Z",
       "side": 1,
       "message": "missing header?",
+      "revId": "eb0f9015a051e404b8039050dff7b7b40d8d9f91",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0117c2e2_6872fc7b",
+        "filename": "projects_stats.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2025-08-19T17:00:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ef5e5e7c_947b4d08",
       "revId": "eb0f9015a051e404b8039050dff7b7b40d8d9f91",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
@@ -66,6 +108,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ad8e8dd7_fffc0b11",
+        "filename": "projects_stats.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2025-08-19T17:00:09Z",
+      "side": 1,
+      "message": "Yes, I thought about it, however I wated to minimise the amount of read on the filesystem because of the EFS quota consumption.",
+      "parentUuid": "c7af7058_a537aed9",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 70
+      },
+      "revId": "eb0f9015a051e404b8039050dff7b7b40d8d9f91",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0a3b78c0_16b8f985",
         "filename": "projects_stats.py",
         "patchSetId": 6
@@ -77,6 +143,30 @@
       "writtenOn": "2025-08-19T13:18:09Z",
       "side": 1,
       "message": "How can date now being defined? We are bailing out at `L89`, if that happens.",
+      "range": {
+        "startLine": 65,
+        "startChar": 35,
+        "endLine": 65,
+        "endChar": 48
+      },
+      "revId": "eb0f9015a051e404b8039050dff7b7b40d8d9f91",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6a5fab0_864b4810",
+        "filename": "projects_stats.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2025-08-19T17:00:09Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "0a3b78c0_16b8f985",
       "range": {
         "startLine": 65,
         "startChar": 35,
