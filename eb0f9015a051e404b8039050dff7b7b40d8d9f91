@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f60e891e_82a6cc07",
+        "filename": "README.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-08-19T13:18:09Z",
+      "side": 1,
+      "message": "Doesn\u0027t look the gerrit_url must end with `/projects/`.\nThe python script does: `GERRIT_URL + PROJECTS_ENDPOINT`.",
+      "range": {
+        "startLine": 47,
+        "startChar": 51,
+        "endLine": 47,
+        "endChar": 79
+      },
+      "revId": "eb0f9015a051e404b8039050dff7b7b40d8d9f91",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef5e5e7c_947b4d08",
+        "filename": "projects_stats.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-08-19T13:18:09Z",
+      "side": 1,
+      "message": "missing header?",
+      "revId": "eb0f9015a051e404b8039050dff7b7b40d8d9f91",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7af7058_a537aed9",
+        "filename": "projects_stats.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-08-19T13:18:09Z",
+      "side": 1,
+      "message": "If we have access to the `git` directory, do we actually need to go through Gerrit?\nI am mentioning this because not having to do this, would simplify the setup, it would not require to have user/password and to set up ACL to ensure that every project is visible.\n\nHave you considered to get the list of projects from filesystem directly?",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 70
+      },
+      "revId": "eb0f9015a051e404b8039050dff7b7b40d8d9f91",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a3b78c0_16b8f985",
+        "filename": "projects_stats.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-08-19T13:18:09Z",
+      "side": 1,
+      "message": "How can date now being defined? We are bailing out at `L89`, if that happens.",
+      "range": {
+        "startLine": 65,
+        "startChar": 35,
+        "endLine": 65,
+        "endChar": 48
+      },
+      "revId": "eb0f9015a051e404b8039050dff7b7b40d8d9f91",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
