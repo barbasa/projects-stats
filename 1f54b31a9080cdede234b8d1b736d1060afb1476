@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb3e25ee_d9b8270b",
+        "filename": "projects_stats.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-08-19T13:22:14Z",
+      "side": 1,
+      "message": "This is not finding project changes that involve direct changes to `/heads/`, or `/tags/` creations, etc.\n\nAre we OK in only tracking the changes context when it comes to the definition of `last update`?",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 57
+      },
+      "revId": "1f54b31a9080cdede234b8d1b736d1060afb1476",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "751beb5c_f081306d",
+        "filename": "projects_stats.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-08-19T13:22:14Z",
+      "side": 1,
+      "message": "What if it is last_update is not being defined? Should also not raise in that case?",
+      "range": {
+        "startLine": 101,
+        "startChar": 0,
+        "endLine": 101,
+        "endChar": 25
+      },
+      "revId": "1f54b31a9080cdede234b8d1b736d1060afb1476",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
