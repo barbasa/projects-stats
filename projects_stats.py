@@ -9,6 +9,7 @@ import os
 import gzip
 import re
 from datetime import datetime, timezone
+from urllib.parse import unquote, parse_qs, urlsplit
 
 # === Load configuration ===
 config = configparser.ConfigParser()
@@ -19,6 +20,7 @@ GERRIT_USER = config["general"]["gerrit_user"]
 GERRIT_PASSWORD = config["general"]["gerrit_password"]
 GIT_BASE_PATH = config["general"]["git_base_path"]
 CSV_OUTPUT = config["general"]["csv_output"]
+DISCARDED_URLS_OUTPUT = config["general"]["discarded_urls_output"]
 LOGS_PATH = config["general"].get("logs_path", "")
 
 AUTH = (GERRIT_USER, GERRIT_PASSWORD)
@@ -96,11 +98,75 @@ def _git_capture(repo_git_dir: str, *args) -> tuple[int, str]:
 
 # === HTTP logs parsing for last-read extraction ===
 _TS_RE = re.compile(r"\[(?P<ts>\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?Z)\]")
-# TODO: match REST API calls as well
+
 _UPLOAD_PACK_RE = re.compile(
     r'"(?:GET|POST)\s+/(?:(?:a|p)/)?(?P<proj>[^\s/][^\s]*?)(?:\.git)?/(?:info/refs\?service=git-upload-pack|(?:git-)?upload-pack)\b',
     re.IGNORECASE,
 )
+_HTTP_URL_RE = re.compile(r'"(?:GET|HEAD)\s+([^\s\"]+)', re.IGNORECASE)
+
+
+def _extract_proj(line: str):
+
+    m = _UPLOAD_PACK_RE.search(line)
+    if m:
+        proj = m.group("proj")
+        try:
+            return unquote(proj), None
+        except Exception:
+            return proj, None
+
+    um = _HTTP_URL_RE.search(line)
+    if not um:
+        return None, None
+
+    # e.g., /a/projects/foo/..., /changes/foo~bar~I123
+    raw_url = um.group(1)
+    try:
+        parts = urlsplit(raw_url)
+        path = parts.path
+    except Exception:
+        # Fallback: naive split if urlsplit fails on malformed lines
+        if '?' in raw_url:
+            path, query = raw_url.split('?', 1)
+        else:
+            path, query = raw_url, ''
+
+    if path.startswith('/a/'):
+        path_ = path[2:]
+    else:
+        path_ = path
+
+    # 1) Path: /projects/<proj>/...
+    if path_.startswith('/projects/'):
+        segs = path_.split('/')
+        encodedProj = segs[2]
+        try:
+            return unquote(encodedProj), None
+        except Exception:
+            print(f"WARN: Cannot decode project {encodedProj}")
+            return encodedProj, None
+
+    # 2) Path: /c/<project>/+/10081696
+    if path_.startswith('/c/'):
+        segs = path_.split('/')
+        encodedProj = segs[2]
+        try:
+            return unquote(encodedProj), None
+        except Exception:
+            print(f"WARN: Cannot decode project {encodedProj}")
+            return encodedProj, None
+
+    # 3) Path: /changes/<project>~<branch>~<id>
+    if path_.startswith('/changes/'):
+        rest = path_[len('/changes/'):]
+        proj = rest.split('~', 1)[0]
+        try:
+            return unquote(proj), None
+        except Exception:
+            return proj, None
+
+    return None, path_
 
 
 def _iter_log_files(logs_dir: str):
@@ -122,13 +188,6 @@ def _open_maybe_gz(path: str):
     return open(path, "rt", encoding="utf-8", errors="replace")
 
 
-def _extract_proj(line: str):
-    m = _UPLOAD_PACK_RE.search(line)
-    if m:
-        return m.group("proj")
-    return None
-
-
 def _extract_ts(line: str):
     m = _TS_RE.search(line)
     if not m:
@@ -147,6 +206,7 @@ def get_last_reads_from_logs(logs_dir: str):
     If multiple log files are present, the latest timestamp per repo wins.
     """
     last_reads = {}
+    discarded_urls = set()
     for path in _iter_log_files(logs_dir):
         try:
             with _open_maybe_gz(path) as fh:
@@ -155,8 +215,10 @@ def get_last_reads_from_logs(logs_dir: str):
                     if not ts:
                         continue
 
-                    proj = _extract_proj(line)
+                    proj, discarded_url = _extract_proj(line)
                     if not proj:
+                        if discarded_url:
+                            discarded_urls.add(discarded_url)
                         continue
 
                     prev = last_reads.get(proj)
@@ -164,7 +226,7 @@ def get_last_reads_from_logs(logs_dir: str):
                         last_reads[proj] = ts
         except Exception as e:
             print(f"Warning: failed to process {path}: {e}")
-    return last_reads
+    return last_reads, discarded_urls
 
 
 def write_to_csv(repo_data):
@@ -179,6 +241,18 @@ def write_to_csv(repo_data):
             writer.writerow([repo, creation_date or "N/A", last_read or "N/A"])
 
 
+def write_to_discarded_urls(discarded_url: set):
+    """Write urls which are not considered read operations.
+    This can be useful for debugging purposes to identify missing positive matches.
+
+    discarded_url is a set
+    """
+    output_path = os.path.join(DISCARDED_URLS_OUTPUT, "discarded_urls.txt")
+    with open(output_path, "w+", encoding="utf-8") as f:
+        for url in sorted(discarded_url):
+            f.write(url + "\n")
+
+
 def main():
     print("Fetching repository list...")
     repos = get_gerrit_projects()
@@ -189,9 +263,8 @@ def main():
     existing_data = load_existing_csv()  # {repo: {creation, last_read}}
 
     print(f"Scanning logs in {LOGS_PATH} for last reads...")
-    last_reads_from_logs = get_last_reads_from_logs(LOGS_PATH)
+    last_reads_from_logs, discarded_urls = get_last_reads_from_logs(LOGS_PATH)
 
-    print(f"Last read {last_reads_from_logs}")
     repo_rows = []
     for repo in repos:
         existing_creation = existing_data.get(repo, {}).get("creation")
@@ -213,6 +286,7 @@ def main():
         repo_rows.append((repo, creation_date, last_read))
 
     write_to_csv(repo_rows)
+    write_to_discarded_urls(discarded_urls)
     print(f"Done. Output saved to: {CSV_OUTPUT}")
 
 
