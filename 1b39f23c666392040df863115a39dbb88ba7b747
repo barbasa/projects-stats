@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "265c6477_af5fedca",
+        "filename": "projects_stats.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2025-08-20T17:17:51Z",
+      "side": 1,
+      "message": "Done in Ic72b2ac8",
+      "parentUuid": "5c6a412f_6b28edf5",
+      "range": {
+        "startLine": 88,
+        "startChar": 0,
+        "endLine": 92,
+        "endChar": 0
+      },
+      "revId": "1b39f23c666392040df863115a39dbb88ba7b747",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "38ffd3d1_9fbdf62a",
