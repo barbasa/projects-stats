@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "11ab505f_75bf8f22",
+        "filename": "README.md",
+        "patchSetId": 8
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-08-21T14:23:00Z",
+      "side": 1,
+      "message": "or a fallback to refs/meta/config is this doesn\u0027t exist.",
+      "range": {
+        "startLine": 4,
+        "startChar": 85,
+        "endLine": 4,
+        "endChar": 91
+      },
+      "revId": "7492cc6c0a799acb2d7e2072c379f42426ccd0d7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5823d00b_0cca623a",
+        "filename": "config.ini",
+        "patchSetId": 8
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-08-21T14:23:00Z",
+      "side": 1,
+      "message": "nit: since this is always needed, I would add it as part of the code and leave this just to the gerrit url.",
+      "range": {
+        "startLine": 2,
+        "startChar": 38,
+        "endLine": 2,
+        "endChar": 40
+      },
+      "revId": "7492cc6c0a799acb2d7e2072c379f42426ccd0d7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7bbb39a7_1a26949a",
+        "filename": "projects_stats.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-08-21T14:23:00Z",
+      "side": 1,
+      "message": "Do we need to paginate, or is this always retrieving all projects?",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 70
+      },
+      "revId": "7492cc6c0a799acb2d7e2072c379f42426ccd0d7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f02ee559_f24c1519",
+        "filename": "projects_stats.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-08-21T14:23:00Z",
+      "side": 1,
+      "message": "can we output the exception message here?",
+      "range": {
+        "startLine": 82,
+        "startChar": 18,
+        "endLine": 82,
+        "endChar": 20
+      },
+      "revId": "7492cc6c0a799acb2d7e2072c379f42426ccd0d7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
