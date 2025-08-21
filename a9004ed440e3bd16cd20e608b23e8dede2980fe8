@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "89520ddf_715192d6",
+        "filename": "config.ini",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-08-21T15:05:35Z",
+      "side": 1,
+      "message": "replace with something more generic?",
+      "range": {
+        "startLine": 5,
+        "startChar": 20,
+        "endLine": 5,
+        "endChar": 75
+      },
+      "revId": "a9004ed440e3bd16cd20e608b23e8dede2980fe8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "224cb443_4d1ca281",
+        "filename": "config.ini",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-08-21T15:05:35Z",
+      "side": 1,
+      "message": "replace with something more generic?",
+      "range": {
+        "startLine": 8,
+        "startChar": 17,
+        "endLine": 8,
+        "endChar": 95
+      },
+      "revId": "a9004ed440e3bd16cd20e608b23e8dede2980fe8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97327738_032b0ceb",
+        "filename": "projects_stats.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-08-21T15:05:35Z",
+      "side": 1,
+      "message": "Should we log these at debug level? (even as a follow up change)",
+      "range": {
+        "startLine": 221,
+        "startChar": 24,
+        "endLine": 221,
+        "endChar": 61
+      },
+      "revId": "a9004ed440e3bd16cd20e608b23e8dede2980fe8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
