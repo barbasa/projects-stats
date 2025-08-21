@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4008f201_a5f4f22a",
+        "filename": "projects_stats.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-08-21T14:58:33Z",
+      "side": 1,
+      "message": "this is not needed",
+      "range": {
+        "startLine": 110,
+        "startChar": 76,
+        "endLine": 110,
+        "endChar": 87
+      },
+      "revId": "046964b9ba25acda38aa58f7f1231267c2ba414c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "904f6b27_1588a09f",
+        "filename": "projects_stats.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-08-21T14:58:33Z",
+      "side": 1,
+      "message": "Should be `_`.",
+      "range": {
+        "startLine": 110,
+        "startChar": 49,
+        "endLine": 110,
+        "endChar": 50
+      },
+      "revId": "046964b9ba25acda38aa58f7f1231267c2ba414c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8eaba3f_7647274f",
+        "filename": "projects_stats.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-08-21T14:58:33Z",
+      "side": 1,
+      "message": "Since we are always traversing log files from most recent to the oldest, can we not just assume that if `last_reads.get(proj)` yields a result, that is the most recent and we can just skip and `continue`?\n\nCan you think of any case when this is not the case?",
+      "range": {
+        "startLine": 162,
+        "startChar": 0,
+        "endLine": 162,
+        "endChar": 47
+      },
+      "revId": "046964b9ba25acda38aa58f7f1231267c2ba414c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
