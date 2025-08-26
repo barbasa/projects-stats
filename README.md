@@ -44,7 +44,6 @@ Create a config.ini file in the same directory as the script, with the following
     git_base_path = /var/gerrit/git
     csv_output = repo_creation_dates.csv
     logs_path = /tmp/logs
-    discarded_urls_output = /tmp
 ```
 
 * gerrit_url: Gerrit REST API URL
@@ -53,7 +52,7 @@ Create a config.ini file in the same directory as the script, with the following
 * git_base_path: Path on disk where the repositories are stored (bare format, .git)
 * csv_output: Output file name (default is repo_creation_dates.csv)
 * logs_path: Directory containing the HTTP log files
-* discarded_urls_output: Directory to write the `discarded_urls.txt` file containing URLs not matched
+* log_file: Log file name (default is `projects_stats.log`)
 
 ## Run the script
 
