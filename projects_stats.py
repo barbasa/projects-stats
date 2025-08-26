@@ -29,7 +29,12 @@ AUTH = (GERRIT_USER, GERRIT_PASSWORD)
 CSV_HEADER_REPOSITORY = "Repository"
 CSV_HEADER_CREATION_DATE = "Creation Date"
 CSV_HEADER_LAST_READ = "Last Read Date"
+CSV_HEADER_LAST_WRITE = "Last Write Date"
 PROJECTS_ENDPOINT = "/a/projects"
+
+READ_OPERATION = "read"
+WRITE_OPERATION = "write"
+WRITE_METHODS = {"POST", "PUT", "PATCH", "DELETE"}
 
 logging.basicConfig(
     level=logging.INFO,
@@ -113,25 +118,52 @@ _UPLOAD_PACK_RE = re.compile(
     r'"(?:GET|POST)\s+/(?:(?:a|p)/)?(?P<proj>[^\s/][^\s]*?)(?:\.git)?/(?:info/refs\?service=git-upload-pack|(?:git-)?upload-pack)\b',
     re.IGNORECASE,
 )
-_HTTP_URL_RE = re.compile(r'"(?:GET|HEAD)\s+([^\s\"]+)', re.IGNORECASE)
+_RECEIVE_PACK_RE = re.compile(
+    r'"(?:GET|POST)\s+/(?:(?:a|p)/)?(?P<proj>[^\s/][^\s]*?)(?:\.git)?/(?:info/refs\?service=git-upload-pack|(?:git-)?receive-pack)\b',
+    re.IGNORECASE,
+)
+_HTTP_URL_RE = re.compile(r'"(?P<method>GET|HEAD|POST|PUT|PATCH|DELETE)\s+(?P<url>[^\s\"]+)', re.IGNORECASE)
 
 
-def _extract_proj(line: str):
+def _extract_proj_and_kind(line: str):
+    """Extract project name and classify the request kind.
+
+    Returns a tuple: (project: Optional[str], kind: Optional[str], discarded_url: Optional[str])
+    where kind is one of {"read", "write", None}.
+    """
 
     m = _UPLOAD_PACK_RE.search(line)
     if m:
         proj = m.group("proj")
         try:
-            return unquote(proj), None
+            return unquote(proj), READ_OPERATION, None
         except Exception:
-            return proj, None
+            return proj, READ_OPERATION, None
+
+        # Classify kind
+
+    m = _RECEIVE_PACK_RE.search(line)
+    if m:
+        proj = m.group("proj")
+        try:
+            return unquote(proj), WRITE_OPERATION, None
+        except Exception:
+            return proj, WRITE_OPERATION, None
+
+    # 1) /projects/<proj>/...
 
     um = _HTTP_URL_RE.search(line)
     if not um:
-        return None, None
+        return None, None, None
 
     # e.g., /a/projects/foo/..., /changes/foo~bar~I123
-    raw_url = um.group(1)
+    method = um.group("method").upper()
+    raw_url = um.group("url")
+
+    kind = READ_OPERATION
+    if method in WRITE_METHODS:
+        kind = WRITE_OPERATION
+
     try:
         parts = urlsplit(raw_url)
         path = parts.path
@@ -152,31 +184,31 @@ def _extract_proj(line: str):
         segs = path_.split('/')
         encodedProj = segs[2]
         try:
-            return unquote(encodedProj), None
+            return unquote(encodedProj), kind, None
         except Exception:
             logging.warning(f"Cannot decode project {encodedProj}")
-            return encodedProj, None
+            return encodedProj, kind, None
 
     # 2) Path: /c/<project>/+/10081696
     if path_.startswith('/c/'):
         segs = path_.split('/')
         encodedProj = segs[2]
         try:
-            return unquote(encodedProj), None
+            return unquote(encodedProj), kind, None
         except Exception:
             logging.warning(f"Cannot decode project {encodedProj}")
-            return encodedProj, None
+            return encodedProj, kind, None
 
     # 3) Path: /changes/<project>~<branch>~<id>
     if path_.startswith('/changes/'):
         rest = path_[len('/changes/'):]
         proj = rest.split('~', 1)[0]
         try:
-            return unquote(proj), None
+            return unquote(proj), kind, None
         except Exception:
-            return proj, None
+            return proj, kind, None
 
-    return None, path_
+    return None, kind, path_
 
 
 def _iter_log_files_descending(logs_dir: str):
@@ -210,12 +242,14 @@ def _extract_ts(line: str):
         return None
 
 
-def get_last_reads_from_logs(logs_dir: str):
-    """Scan Gerrit HTTP logs and return {last_read} for git-upload-pack reads.
+def get_last_access_from_logs(logs_dir: str):
+    """Scan Gerrit HTTP logs and return (last_reads, last_writes, discarded_urls).
 
-    If multiple log files are present, the latest timestamp per repo wins.
+    last_reads/last_writes are dicts: {project: datetime} capturing the most recent
+    git reads (upload-pack) and writes (receive-pack POST or REST write methods).
     """
     last_reads = {}
+    last_writes = {}
     discarded_urls = set()
     for path in _iter_log_files_descending(logs_dir):
         try:
@@ -225,30 +259,35 @@ def get_last_reads_from_logs(logs_dir: str):
                     if not ts:
                         continue
 
-                    proj, discarded_url = _extract_proj(line)
+                    proj, kind, discarded_url = _extract_proj_and_kind(line)
                     if not proj:
                         if discarded_url:
                             discarded_urls.add(discarded_url)
                         continue
 
-                    prev = last_reads.get(proj)
-                    if prev is None or ts > prev:
-                        last_reads[proj] = ts
+                    if kind == "read":
+                        prev = last_reads.get(proj)
+                        if prev is None or ts > prev:
+                            last_reads[proj] = ts
+                    elif kind == "write":
+                        prev = last_writes.get(proj)
+                        if prev is None or ts > prev:
+                            last_writes[proj] = ts
         except Exception as e:
             logging.warning(f"Failed to process {path}: {e}")
-    return last_reads, discarded_urls
+    return last_reads, last_writes, discarded_urls
 
 
 def write_to_csv(repo_data):
     """Write repository name, creation date, last update, and last read dates to CSV.
 
-    repo_data is an iterable of tuples: (repo, creation_date, last_read)
+    repo_data is an iterable of tuples: (repo, creation_date, last_read, last_write)
     """
     with open(CSV_OUTPUT, "w", newline="") as f:
         writer = csv.writer(f)
-        writer.writerow([CSV_HEADER_REPOSITORY, CSV_HEADER_CREATION_DATE, CSV_HEADER_LAST_READ])
-        for repo, creation_date, last_read in repo_data:
-            writer.writerow([repo, creation_date or "N/A", last_read or "N/A"])
+        writer.writerow([CSV_HEADER_REPOSITORY, CSV_HEADER_CREATION_DATE, CSV_HEADER_LAST_READ, CSV_HEADER_LAST_WRITE])
+        for repo, creation_date, last_read, last_write in repo_data:
+            writer.writerow([repo, creation_date or "N/A", (last_read.isoformat() if last_read else "N/A"), (last_write.isoformat() if last_write else "N/A")])
 
 
 def write_to_discarded_urls(discarded_url: set):
@@ -272,7 +311,7 @@ def main():
     existing_data = load_existing_csv()
 
     logging.info(f"Scanning logs in {LOGS_PATH} for last reads...")
-    last_reads_from_logs, discarded_urls = get_last_reads_from_logs(LOGS_PATH)
+    last_reads_from_logs, last_writes_from_logs, discarded_urls = get_last_access_from_logs(LOGS_PATH)
 
     repo_rows = []
     for repo in repos:
@@ -292,7 +331,11 @@ def main():
         if repo in last_reads_from_logs:
             last_read = last_reads_from_logs[repo]
 
-        repo_rows.append((repo, creation_date, last_read))
+        last_write = None
+        if repo in last_writes_from_logs:
+            last_write = last_writes_from_logs[repo]
+
+        repo_rows.append((repo, creation_date, last_read, last_write))
 
     write_to_csv(repo_rows)
     write_to_discarded_urls(discarded_urls)
