@@ -9,7 +9,9 @@ import os
 import gzip
 import re
 from datetime import datetime, timezone
-from urllib.parse import unquote, parse_qs, urlsplit
+from urllib.parse import unquote, urlsplit
+import logging
+import sys
 
 # === Load configuration ===
 config = configparser.ConfigParser()
@@ -20,8 +22,8 @@ GERRIT_USER = config["general"]["gerrit_user"]
 GERRIT_PASSWORD = config["general"]["gerrit_password"]
 GIT_BASE_PATH = config["general"]["git_base_path"]
 CSV_OUTPUT = config["general"]["csv_output"]
-DISCARDED_URLS_OUTPUT = config["general"]["discarded_urls_output"]
 LOGS_PATH = config["general"].get("logs_path", "")
+LOG_FILE = config["general"].get("log_file", "projects_stats.log")
 
 AUTH = (GERRIT_USER, GERRIT_PASSWORD)
 CSV_HEADER_REPOSITORY = "Repository"
@@ -29,6 +31,21 @@ CSV_HEADER_CREATION_DATE = "Creation Date"
 CSV_HEADER_LAST_READ = "Last Read Date"
 PROJECTS_ENDPOINT = "/a/projects"
 
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s %(levelname)s: %(message)s",
+    handlers=[
+        logging.FileHandler(LOG_FILE, mode='a'),
+        logging.StreamHandler(sys.stdout)
+    ]
+)
+
+discarded_urls_logger = logging.getLogger("discarded_urls_logger")
+discarded_urls_handler = logging.FileHandler("discarded_urls_" + LOG_FILE, mode="a")
+discarded_urls_handler.setFormatter(logging.Formatter("%(asctime)s %(levelname)s: %(message)s"))
+discarded_urls_handler.setLevel(logging.INFO)
+discarded_urls_logger.propagate = False
+discarded_urls_logger.addHandler(discarded_urls_handler)
 
 def load_existing_csv():
     """Load existing CSV data into a dictionary mapping repo -> {creation,last_read}."""
@@ -111,13 +128,13 @@ def _extract_proj(line: str):
     if m:
         proj = m.group("proj")
         try:
-            return unquote(proj), None
+            return unquote(proj)
         except Exception:
-            return proj, None
+            return proj
 
     um = _HTTP_URL_RE.search(line)
     if not um:
-        return None, None
+        return None
 
     # e.g., /a/projects/foo/..., /changes/foo~bar~I123
     raw_url = um.group(1)
@@ -141,31 +158,32 @@ def _extract_proj(line: str):
         segs = path_.split('/')
         encodedProj = segs[2]
         try:
-            return unquote(encodedProj), None
+            return unquote(encodedProj)
         except Exception:
-            print(f"WARN: Cannot decode project {encodedProj}")
-            return encodedProj, None
+            logging.warning(f"Cannot decode project {encodedProj}")
+            return encodedProj
 
     # 2) Path: /c/<project>/+/10081696
     if path_.startswith('/c/'):
         segs = path_.split('/')
         encodedProj = segs[2]
         try:
-            return unquote(encodedProj), None
+            return unquote(encodedProj)
         except Exception:
-            print(f"WARN: Cannot decode project {encodedProj}")
-            return encodedProj, None
+            logging.warning(f"Cannot decode project {encodedProj}")
+            return encodedProj
 
     # 3) Path: /changes/<project>~<branch>~<id>
     if path_.startswith('/changes/'):
         rest = path_[len('/changes/'):]
         proj = rest.split('~', 1)[0]
         try:
-            return unquote(proj), None
+            return unquote(proj)
         except Exception:
-            return proj, None
+            return proj
 
-    return None, path_
+    discarded_urls_logger.info(path_)
+    return None
 
 
 def _iter_log_files_descending(logs_dir: str):
@@ -177,7 +195,7 @@ def _iter_log_files_descending(logs_dir: str):
     # sort by modification time descending (most recent first) so we can continue as soon as we find
     # a read without parsing all the files
     for full in sorted(files, key=os.path.getmtime, reverse=True):
-        print(f"Analyzing file: {full}")
+        logging.info(f"Analyzing file: {full}")
         yield full
 
 
@@ -195,7 +213,7 @@ def _extract_ts(line: str):
     try:
         return datetime.strptime(s, "%Y-%m-%dT%H:%M:%S.%fZ").replace(tzinfo=timezone.utc)
     except ValueError:
-        print(f"Error while converting date {s}")
+        logging.error(f"Error while converting date {s}")
         return None
 
 
@@ -205,7 +223,6 @@ def get_last_reads_from_logs(logs_dir: str):
     If multiple log files are present, the latest timestamp per repo wins.
     """
     last_reads = {}
-    discarded_urls = set()
     for path in _iter_log_files_descending(logs_dir):
         try:
             with _open_maybe_gz(path) as fh:
@@ -214,18 +231,16 @@ def get_last_reads_from_logs(logs_dir: str):
                     if not ts:
                         continue
 
-                    proj, discarded_url = _extract_proj(line)
+                    proj = _extract_proj(line)
                     if not proj:
-                        if discarded_url:
-                            discarded_urls.add(discarded_url)
                         continue
 
                     prev = last_reads.get(proj)
                     if prev is None or ts > prev:
                         last_reads[proj] = ts
         except Exception as e:
-            print(f"Warning: failed to process {path}: {e}")
-    return last_reads, discarded_urls
+            logging.warning(f"Failed to process {path}: {e}")
+    return last_reads
 
 
 def write_to_csv(repo_data):
@@ -239,21 +254,8 @@ def write_to_csv(repo_data):
         for repo, creation_date, last_read in repo_data:
             writer.writerow([repo, creation_date or "N/A", last_read or "N/A"])
 
-
-def write_to_discarded_urls(discarded_url: set):
-    """Write urls which are not considered read operations.
-    This can be useful for debugging purposes to identify missing positive matches.
-
-    discarded_url is a set
-    """
-    output_path = os.path.join(DISCARDED_URLS_OUTPUT, "discarded_urls.txt")
-    with open(output_path, "w+", encoding="utf-8") as f:
-        for url in sorted(discarded_url):
-            f.write(url + "\n")
-
-
 def main():
-    print("Fetching repository list...")
+    logging.info("Fetching repository list...")
     repos = get_gerrit_projects()
 
     repos.remove("All-Projects")
@@ -261,8 +263,8 @@ def main():
 
     existing_data = load_existing_csv()
 
-    print(f"Scanning logs in {LOGS_PATH} for last reads...")
-    last_reads_from_logs, discarded_urls = get_last_reads_from_logs(LOGS_PATH)
+    logging.info(f"Scanning logs in {LOGS_PATH} for last reads...")
+    last_reads_from_logs = get_last_reads_from_logs(LOGS_PATH)
 
     repo_rows = []
     for repo in repos:
@@ -271,12 +273,12 @@ def main():
         # Always compute/keep creation date: if already in CSV, reuse; otherwise, try to get it.
         if existing_creation:
             creation_date = existing_creation
-            print(f"Creation date already collected for {repo}")
+            logging.info(f"Creation date already collected for {repo}")
         else:
-            print(f"Processing: {repo}")
+            logging.info(f"Processing: {repo}")
             creation_date = get_first_commit_date(repo)
             if not creation_date:
-                print(f"Error: could not extract creation date for {repo}")
+                logging.error(f"Could not extract creation date for {repo}")
 
         last_read = None
         if repo in last_reads_from_logs:
@@ -285,8 +287,7 @@ def main():
         repo_rows.append((repo, creation_date, last_read))
 
     write_to_csv(repo_rows)
-    write_to_discarded_urls(discarded_urls)
-    print(f"Done. Output saved to: {CSV_OUTPUT}")
+    logging.info(f"Done. Output saved to: {CSV_OUTPUT}")
 
 
 if __name__ == "__main__":
