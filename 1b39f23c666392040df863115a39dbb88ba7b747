@@ -83,6 +83,24 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f007f6e4_35684211",
+        "filename": "projects_stats.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2025-08-26T11:30:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67c62ade_69dcbd6f",
+      "revId": "1b39f23c666392040df863115a39dbb88ba7b747",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f527920a_3917ec2f",
