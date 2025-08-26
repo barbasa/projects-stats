@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae8c0dd3_8d17d0a1",
+        "filename": "README.md",
+        "patchSetId": 8
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2025-08-26T10:52:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "11ab505f_75bf8f22",
+      "range": {
+        "startLine": 4,
+        "startChar": 85,
+        "endLine": 4,
+        "endChar": 91
+      },
+      "revId": "7492cc6c0a799acb2d7e2072c379f42426ccd0d7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5823d00b_0cca623a",
@@ -37,6 +61,30 @@
       "writtenOn": "2025-08-21T14:23:00Z",
       "side": 1,
       "message": "nit: since this is always needed, I would add it as part of the code and leave this just to the gerrit url.",
+      "range": {
+        "startLine": 2,
+        "startChar": 38,
+        "endLine": 2,
+        "endChar": 40
+      },
+      "revId": "7492cc6c0a799acb2d7e2072c379f42426ccd0d7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d8f07df_69cf407f",
+        "filename": "config.ini",
+        "patchSetId": 8
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2025-08-26T10:52:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5823d00b_0cca623a",
       "range": {
         "startLine": 2,
         "startChar": 38,
@@ -70,6 +118,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cdfcbf23_95ca1160",
+        "filename": "projects_stats.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2025-08-26T10:52:33Z",
+      "side": 1,
+      "message": "Using the `all` parameter [1]\n\n[1]: https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#list-projects",
+      "parentUuid": "7bbb39a7_1a26949a",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 70
+      },
+      "revId": "7492cc6c0a799acb2d7e2072c379f42426ccd0d7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f02ee559_f24c1519",
@@ -83,6 +155,30 @@
       "writtenOn": "2025-08-21T14:23:00Z",
       "side": 1,
       "message": "can we output the exception message here?",
+      "range": {
+        "startLine": 82,
+        "startChar": 18,
+        "endLine": 82,
+        "endChar": 20
+      },
+      "revId": "7492cc6c0a799acb2d7e2072c379f42426ccd0d7",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec599828_fd335133",
+        "filename": "projects_stats.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2025-08-26T10:52:33Z",
+      "side": 1,
+      "message": "I am now returning it but ignoring in the caller. When we will introduce a proper logging I think we can log it. Now it would be too spammy to print it all the times since loads of projects might not have the master branch.",
+      "parentUuid": "f02ee559_f24c1519",
       "range": {
         "startLine": 82,
         "startChar": 18,
