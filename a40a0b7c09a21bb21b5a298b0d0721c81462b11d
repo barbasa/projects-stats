@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ace6667d_62796cc7",
+        "filename": "projects_stats.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2025-08-27T16:59:54Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "de28875d_209f40d0",
+      "range": {
+        "startLine": 37,
+        "startChar": 32,
+        "endLine": 37,
+        "endChar": 39
+      },
+      "revId": "a40a0b7c09a21bb21b5a298b0d0721c81462b11d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "48be17c8_8a2288c5",
@@ -37,6 +61,30 @@
       "writtenOn": "2025-08-27T11:27:50Z",
       "side": 1,
       "message": "Do we need to return this? Can we not just log it internally when we know we have a discarted URL? This way we could remove it from the method return value",
+      "range": {
+        "startLine": 278,
+        "startChar": 35,
+        "endLine": 278,
+        "endChar": 50
+      },
+      "revId": "a40a0b7c09a21bb21b5a298b0d0721c81462b11d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a82d2c9a_32b7d1e5",
+        "filename": "projects_stats.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2025-08-27T16:59:54Z",
+      "side": 1,
+      "message": "I was thinking of keeping it to avoid duplications, since the duplicated urls are likely to be repeated and they would make the logs unasable.\n\nAn alternative acould be totally removing the logging of the discarded urls. WDYT?",
+      "parentUuid": "48be17c8_8a2288c5",
       "range": {
         "startLine": 278,
         "startChar": 35,
