@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ccbfaad2_f9218a6c",
+        "filename": "projects_stats.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2025-08-27T16:53:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36ed471b_47d6526a",
+      "range": {
+        "startLine": 105,
+        "startChar": 4,
+        "endLine": 105,
+        "endChar": 19
+      },
+      "revId": "47cfffa2209f5e528f8c4ed6443343aee7436b3d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a0dae134_3cdf0a5f",
@@ -37,6 +61,24 @@
       "writtenOn": "2025-08-27T11:18:40Z",
       "side": 1,
       "message": "Is the timezone always going to be `zulu`?\n\nI can see log files where the timezone is different:\n\n```\n127.0.0.1 [HTTP-3831482] - healthcheck-user [2025-08-25T05:19:17.064-07:00] \"GET /a/config/server/healthcheck~status HTTP/1.0\" 200 557 18 - - 2 - 339904 -\n```\n\nAnd also in the documentation example [1]\n[1] https://gerrit-review.googlesource.com/Documentation/logs.html#_httpd_log\n\nIs it reliable to hardcode this?",
+      "revId": "47cfffa2209f5e528f8c4ed6443343aee7436b3d",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7903ad66_d4d81a99",
+        "filename": "projects_stats.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2025-08-27T16:53:26Z",
+      "side": 1,
+      "message": "I have tailored it to thei logs which I suppose they won\u0027t change format over time.",
+      "parentUuid": "a0dae134_3cdf0a5f",
       "revId": "47cfffa2209f5e528f8c4ed6443343aee7436b3d",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
