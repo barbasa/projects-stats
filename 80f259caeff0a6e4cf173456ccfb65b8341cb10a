@@ -45,6 +45,30 @@
       },
       "revId": "80f259caeff0a6e4cf173456ccfb65b8341cb10a",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dabe6b67_9f01082c",
+        "filename": "projects_stats.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-08-27T11:24:26Z",
+      "side": 1,
+      "message": "oh, I can see from the follow up change, that we are just logging this.\nSo nevermind 😉",
+      "parentUuid": "277eedea_93962474",
+      "range": {
+        "startLine": 168,
+        "startChar": 0,
+        "endLine": 168,
+        "endChar": 22
+      },
+      "revId": "80f259caeff0a6e4cf173456ccfb65b8341cb10a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
