@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f4615c0a_c1a2cb15",
+        "filename": "README.md",
+        "patchSetId": 9
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-08-27T11:09:19Z",
+      "side": 1,
+      "message": "```suggestion\nor fallback to `refs/meta/config` if this doesn\u0027t exist.\n```",
+      "range": {
+        "startLine": 5,
+        "startChar": 34,
+        "endLine": 5,
+        "endChar": 36
+      },
+      "revId": "cfccfd140a867f4da034228204c1913c8b849913",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6235afc4_cd3f59bc",
+        "filename": "config.ini",
+        "patchSetId": 9
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-08-27T11:09:19Z",
+      "side": 1,
+      "message": "nit\n```suggestion\n    git_base_path \u003d /var/gerrit/git\n```",
+      "range": {
+        "startLine": 5,
+        "startChar": 20,
+        "endLine": 5,
+        "endChar": 23
+      },
+      "revId": "cfccfd140a867f4da034228204c1913c8b849913",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
