@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f31a30b_e20c311e",
+        "filename": "README.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-08-27T11:22:55Z",
+      "side": 1,
+      "message": "```suggestion\n* discarded_urls_output: Directory to write the `discarded_urls.txt` file containing URls not matched\n```",
+      "range": {
+        "startLine": 56,
+        "startChar": 101,
+        "endLine": 56,
+        "endChar": 102
+      },
+      "revId": "80f259caeff0a6e4cf173456ccfb65b8341cb10a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "277eedea_93962474",
+        "filename": "projects_stats.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1015244
+      },
+      "writtenOn": "2025-08-27T11:22:55Z",
+      "side": 1,
+      "message": "This is the only case when we return the discarded URL, all other return statements return `None` for it.\n\nHave you considered to only return the `proj` and then throwing an exception with the details of the URL, if it couldn\u0027t be extracted?\n\nThis way we can just run the project extraction in a `try` and then catch the exception for details on the URL.",
+      "range": {
+        "startLine": 168,
+        "startChar": 0,
+        "endLine": 168,
+        "endChar": 22
+      },
+      "revId": "80f259caeff0a6e4cf173456ccfb65b8341cb10a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
