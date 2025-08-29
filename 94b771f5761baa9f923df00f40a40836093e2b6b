@@ -24,6 +24,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac9df057_d2b7a21b",
+        "filename": "projects_stats.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2025-08-29T14:28:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a893aadc_de3166c1",
+      "range": {
+        "startLine": 252,
+        "startChar": 53,
+        "endLine": 252,
+        "endChar": 57
+      },
+      "revId": "94b771f5761baa9f923df00f40a40836093e2b6b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6a609869_870bd536",
@@ -47,6 +71,30 @@
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "134ff8ba_304d303b",
+        "filename": "projects_stats.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2025-08-29T14:28:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6a609869_870bd536",
+      "range": {
+        "startLine": 268,
+        "startChar": 31,
+        "endLine": 268,
+        "endChar": 38
+      },
+      "revId": "94b771f5761baa9f923df00f40a40836093e2b6b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "110d0148_ebf52a61",
@@ -60,6 +108,30 @@
       "writtenOn": "2025-08-29T14:28:26Z",
       "side": 1,
       "message": "nit: could use constant here",
+      "range": {
+        "startLine": 272,
+        "startChar": 31,
+        "endLine": 272,
+        "endChar": 41
+      },
+      "revId": "94b771f5761baa9f923df00f40a40836093e2b6b",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "20d2b989_71b60620",
+        "filename": "projects_stats.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1012541
+      },
+      "writtenOn": "2025-08-29T14:28:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "110d0148_ebf52a61",
       "range": {
         "startLine": 272,
         "startChar": 31,
